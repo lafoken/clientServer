@@ -11,11 +11,8 @@
   "description": "",
   "devDependencies": {
     "@types/node": "22.9.0"
-<<<<<<< HEAD
-=======
   },
   "dependencies": {
     "dotenv": "16.4.5"
->>>>>>> 3fc1a63 (test)
   }
 }
