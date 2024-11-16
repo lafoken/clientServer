@@ -1,38 +1,38 @@
-const { resourceRepository } = require("./../../repositories/resource.repo");
+// @ts-nocheck
+const { workerRepository } = require('./../../repositories/worker.repo');
 
 module.exports = {
   /**
    * @type {import('fastify').RouteOptions}
    */
-  getResource: {
-    url: "/resources/:id",
-    method: "GET",
+  getWorker: {
+    url: '/workers/:id',
+    method: 'GET',
     schema: {
       params: {
-        type: "object",
+        type: 'object',
         properties: {
-          id: { type: "string" },
+          id: { type: 'string' },
         },
-        required: ["id"],
+        required: ['id'],
       },
     },
     handler: async (request, reply) => {
       try {
-        // @ts-ignore - We know that the params is defined
         const targetId = request.params.id;
 
-        const found = await resourceRepository.read(targetId);
+        const found = await workerRepository.findByPK(targetId);
 
         if (!found) {
           return reply.code(404).send({
-            message: "Resource not found",
+            message: 'Worker not found',
           });
         }
 
         return reply.code(200).send(found);
       } catch (error) {
         request.log.error(error);
-        return reply.code(500).send({ error: "Failed to fetch resource" });
+        return reply.code(500).send({ error: 'Failed to fetch worker' });
       }
     },
   },
