@@ -7,9 +7,9 @@ module.exports.patchDocs = (fastify) => {
   fastify.register(require('@fastify/swagger'), {
     swagger: {
       info: {
-        title: 'Product API',
-        description: 'API documentation for the product endpoints',
-        version: '0.4.0',
+        title: 'User API',
+        description: 'API documentation for the user endpoints',
+        version: '0.5.0',
       },
       host: 'localhost',
       basePath: '/api',
@@ -17,10 +17,7 @@ module.exports.patchDocs = (fastify) => {
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
-        { name: 'Products', description: 'Product related end-points' },
-        { name: 'Users', description: 'User related end-points' },
-        { name: 'Cart', description: 'Cart related end-points' },
-        { name: 'Receipts', description: 'Receipt related end-points' },
+        { name: 'Users', description: 'User related end-points' }
       ],
     },
   });

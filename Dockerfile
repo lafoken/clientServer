@@ -34,9 +34,10 @@ COPY --chown=node:node . .
 # Switch to the node user
 USER node
 
-RUN if [ "$REBUILD_PRISMA_CLIENT" = "true" ]; then \
-  pnpm db:sync && pnpx prisma generate; \
-  fi
+RUN if [ "$PRISMA_SYNC_DB" = "true" ]; then pnpm db:sync; fi && \
+  if [ "$PRISMA_REBUILD_CLIENT" = "true" ]; then pnpm db:client; fi
+
+
 # Expose the port the app runs on
 EXPOSE 3000
 
@@ -47,4 +48,4 @@ EXPOSE 9229
 ENV NODE_ENV=development
 
 # Use nodemon for automatic server reloads in development
-CMD ["pnpm", "exec", "nodemon", "--inspect=0.0.0.0:9229", "server.js"]
+CMD ["pnpm", "exec", "nodemon", "-L", "--inspect=0.0.0.0:9229", "server.js"]
