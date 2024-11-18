@@ -22,22 +22,25 @@ module.exports = {
       tags: ['Users'],
       body: {
         type: 'object',
-        required: ['name', 'email'],
+        required: ['username', 'passwordHash'],
         properties: {
-          name: { type: 'string' },
-          email: { type: 'string', format: 'email' },
+          username: { type: 'string' },
+          passwordHash: { type: 'string' },
+          isPrivileged: { type: 'boolean', default: false },
         },
-        additionalProperties: false, // Запобігає додаванню невідомих властивостей
+        additionalProperties: false,
       },
       response: {
         201: {
           type: 'object',
           properties: {
             id: { type: 'string', format: 'uuid' },
-            name: { type: 'string' },
-            email: { type: 'string', format: 'email' },
+            username: { type: 'string' },
+            isPrivileged: { type: 'boolean' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
           },
-          required: ['id', 'name', 'email'], // Відповідь містить обов'язкові поля
+          required: ['id', 'username', 'isPrivileged', 'createdAt'],
         },
       },
     },

@@ -28,10 +28,10 @@ module.exports.updateUser = {
     body: {
       type: 'object',
       properties: {
-        name: { type: 'string' },
-        email: { type: 'string', format: 'email' },
+        username: { type: 'string' },
+        isPrivileged: { type: 'boolean' },
       },
-      required: ['name', 'email'],
+      required: ['username'],
       additionalProperties: false,
     },
     response: {
@@ -39,10 +39,12 @@ module.exports.updateUser = {
         type: 'object',
         properties: {
           id: { type: 'string', format: 'uuid' },
-          name: { type: 'string' },
-          email: { type: 'string', format: 'email' },
+          username: { type: 'string' },
+          isPrivileged: { type: 'boolean' },
+          createdAt: { type: 'string', format: 'date-time' },
+          updatedAt: { type: 'string', format: 'date-time' },
         },
-        required: ['id', 'name', 'email'],
+        required: ['id', 'username', 'isPrivileged', 'createdAt'],
       },
     },
   },

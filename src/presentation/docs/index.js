@@ -9,7 +9,7 @@ module.exports.patchDocs = (fastify) => {
       info: {
         title: 'User API',
         description: 'API documentation for the user endpoints',
-        version: '0.5.0',
+        version: '0.6.0',
       },
       host: 'localhost',
       basePath: '/api',

@@ -23,13 +23,14 @@ RUN pnpm install -g nodemon
 # Copy package.json and install dependencies
 COPY package*.json ./
 
+
 # Fetch dependencies for caching, without creating a node_modules folder
 RUN pnpm fetch
 
-RUN pnpm install
-
 # Copy the rest of the application
 COPY --chown=node:node . .
+
+RUN pnpm install
 
 # Switch to the node user
 USER node

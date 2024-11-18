@@ -1,28 +1,36 @@
-// Оголошення інтерфейсу для User
 declare namespace EntityFields {
   export type User = {
     id?: string;
-    name: string;
-    email: string;
+    username: string;
+    passwordHash?: string;
+    isPrivileged?: boolean;
+
+    createdAt?: Date;
+    updatedAt?: Date;
+  };
+
+  export type UserWithoutPassword = User & {
+    passwordHash?: never;
   };
 }
 
 declare namespace Entities {
   export class User extends BaseEntity<EntityFields.User> {
     public id?: string;
-    public name: string;
-    public email: string;
+    public username: string;
+    public isPrivileged: boolean;
+    public passwordHash?: string;
 
-    /**
-     * @param {EntityFields.User} fields
-     */
+    public createdAt: Date;
+    public updatedAt: ?Date;
+
     constructor(fields: EntityFields.User) {
-      super(fields); // Викликає конструктор базового класу, якщо він є
       this.id = fields.id;
-      this.name = fields.name;
-      this.email = fields.email;
+      this.username = fields.username;
+      this.passwordHash = fields.passwordHash;
+
+      this.createdAt = fields.createdAt || new Date();
+      this.updatedAt = fields.updatedAt || null;
     }
   }
 }
-
-module.exports = { Entities };

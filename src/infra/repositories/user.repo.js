@@ -19,8 +19,28 @@ class UserRepository {
 
     return new User({
       id: userData.id,
-      name: userData.name,
-      email: userData.email,
+      username: userData.username,
+      passwordHash: userData.passwordHash,
+      isPrivileged: userData.isPrivileged,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    });
+  }
+
+  async getByUsername(username) {
+    const userData = await this.#db.user.findUnique({
+      where: { username },
+    });
+
+    if (!userData) return null;
+
+    return new User({
+      id: userData.id,
+      username: userData.username,
+      passwordHash: userData.passwordHash,
+      isPrivileged: userData.isPrivileged,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
     });
   }
 
@@ -30,29 +50,52 @@ class UserRepository {
     return usersData.map(userData =>
       new User({
         id: userData.id,
-        name: userData.name,
-        email: userData.email,
+        username: userData.username,
+        passwordHash: userData.passwordHash,
+        isPrivileged: userData.isPrivileged,
+        createdAt: userData.createdAt,
+        updatedAt: userData.updatedAt,
       })
     );
   }
 
   async save(user) {
-    return await this.#db.user.create({
+    const userData = await this.#db.user.create({
       data: {
         id: user.id,
-        name: user.name,
-        email: user.email,
+        username: user.username,
+        passwordHash: user.passwordHash,
+        isPrivileged: user.isPrivileged,
       },
+    });
+
+    return new User({
+      id: userData.id,
+      username: userData.username,
+      passwordHash: userData.passwordHash,
+      isPrivileged: userData.isPrivileged,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
     });
   }
 
   async update(user) {
-    return await this.#db.user.update({
+    const userData = await this.#db.user.update({
       where: { id: user.id },
       data: {
-        name: user.name,
-        email: user.email,
+        username: user.username,
+        passwordHash: user.passwordHash,
+        isPrivileged: user.isPrivileged,
       },
+    });
+
+    return new User({
+      id: userData.id,
+      username: userData.username,
+      passwordHash: userData.passwordHash,
+      isPrivileged: userData.isPrivileged,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
     });
   }
 

@@ -3,15 +3,22 @@
  */
 class User {
   /**
-   * @param {Object} params
-   * @param {string} params.id
-   * @param {string} params.name
-   * @param {string} params.email
+   * @param {EntityFields.User} params
    */
-  constructor({ id, name, email }) {
+  constructor({
+    id,
+    username,
+    passwordHash,
+    isPrivileged,
+    createdAt,
+    updatedAt,
+  }) {
     this.id = id;
-    this.name = name;
-    this.email = email;
+    this.username = username;
+    this.isPrivileged = isPrivileged || false;
+    this.passwordHash = passwordHash || null;
+    this.createdAt = createdAt || new Date();
+    this.updatedAt = updatedAt || null;
   }
 }
 
