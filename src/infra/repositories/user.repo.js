@@ -10,6 +10,11 @@ const { User } = require('../../domain/entities');
 class UserRepository {
   #db = $prisma;
 
+  // For testing
+  setDatabase(mockDb) {
+    this.#db = mockDb; // Дозволяє змінювати базу даних для тестів
+  }
+
   async getById(id) {
     const userData = await this.#db.user.findUnique({
       where: { id },

@@ -39,11 +39,7 @@ RUN if [ "$PRISMA_SYNC_DB" = "true" ]; then pnpm db:sync; fi && \
   if [ "$PRISMA_REBUILD_CLIENT" = "true" ]; then pnpm db:client; fi
 
 
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Expose the debugging port
-EXPOSE 9229
+EXPOSE 3000 9229
 
 # Set the NODE_ENV environment variable to development by default
 ENV NODE_ENV=development
