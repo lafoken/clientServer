@@ -33,4 +33,10 @@ declare namespace Entities {
       this.updatedAt = fields.updatedAt || null;
     }
   }
+
+  export type UsersList = {
+    items: User[];
+    total: number;
+    page: number;
+  };
 }

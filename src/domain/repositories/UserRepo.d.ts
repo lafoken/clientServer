@@ -6,5 +6,6 @@ declare namespace Repositories {
     save(user: Entities.User): Promise<Entities.User>;
     update(user: Entities.User): Promise<Entities.User>;
     delete(id: string): Promise<void>;
+    find(filters: { term?: string; limit?: number; offset?: number; sort?: string }): Promise<Entities.UsersList>; // Додано метод find
   }
 }

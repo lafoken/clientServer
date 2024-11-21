@@ -10,11 +10,6 @@ const { User } = require('../../domain/entities');
 class UserRepository {
   #db = $prisma;
 
-  // For testing
-  setDatabase(mockDb) {
-    this.#db = mockDb; // Дозволяє змінювати базу даних для тестів
-  }
-
   async getById(id) {
     const userData = await this.#db.user.findUnique({
       where: { id },
@@ -32,40 +27,8 @@ class UserRepository {
     });
   }
 
-  async getByUsername(username) {
-    const userData = await this.#db.user.findUnique({
-      where: { username },
-    });
-
-    if (!userData) return null;
-
-    return new User({
-      id: userData.id,
-      username: userData.username,
-      passwordHash: userData.passwordHash,
-      isPrivileged: userData.isPrivileged,
-      createdAt: userData.createdAt,
-      updatedAt: userData.updatedAt,
-    });
-  }
-
-  async getAll() {
-    const usersData = await this.#db.user.findMany();
-
-    return usersData.map(userData =>
-      new User({
-        id: userData.id,
-        username: userData.username,
-        passwordHash: userData.passwordHash,
-        isPrivileged: userData.isPrivileged,
-        createdAt: userData.createdAt,
-        updatedAt: userData.updatedAt,
-      })
-    );
-  }
-
   async save(user) {
-    const userData = await this.#db.user.create({
+    return await this.#db.user.create({
       data: {
         id: user.id,
         username: user.username,
@@ -73,19 +36,10 @@ class UserRepository {
         isPrivileged: user.isPrivileged,
       },
     });
-
-    return new User({
-      id: userData.id,
-      username: userData.username,
-      passwordHash: userData.passwordHash,
-      isPrivileged: userData.isPrivileged,
-      createdAt: userData.createdAt,
-      updatedAt: userData.updatedAt,
-    });
   }
 
   async update(user) {
-    const userData = await this.#db.user.update({
+    return await this.#db.user.update({
       where: { id: user.id },
       data: {
         username: user.username,
@@ -93,21 +47,67 @@ class UserRepository {
         isPrivileged: user.isPrivileged,
       },
     });
-
-    return new User({
-      id: userData.id,
-      username: userData.username,
-      passwordHash: userData.passwordHash,
-      isPrivileged: userData.isPrivileged,
-      createdAt: userData.createdAt,
-      updatedAt: userData.updatedAt,
-    });
   }
 
   async delete(id) {
     await this.#db.user.delete({
       where: { id },
     });
+  }
+
+  /**
+   * Finds users based on filters with pagination and sorting.
+   * @param {Object} filters
+   * @param {string} [filters.term] - Search term for username or email
+   * @param {number} [filters.limit] - Limit for pagination
+   * @param {number} [filters.offset] - Offset for pagination
+   * @param {string} [filters.sort] - Sort order (e.g. "createdAt DESC")
+   * @returns {Promise<Entities.User[]>}
+   */
+  async find(filters) {
+    const { term, limit = 10, offset = 0, sort = 'createdAt' } = filters;
+
+    // Формуємо умову фільтрації
+    /** @type {import('@prisma/client').Prisma.UserWhereInput} */
+    const whereClause = term
+      ? {
+          OR: [
+            {
+              username: {
+                contains: term,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        }
+      : {};
+
+    // Отримуємо дані користувачів та загальну кількість
+    const [users, total] = await Promise.all([
+      this.#db.user.findMany({
+        where: whereClause,
+        skip: offset,
+        take: limit,
+        orderBy: { [sort]: 'desc' },
+      }),
+      this.#db.user.count({ where: whereClause }), // Підрахунок загальної кількості
+    ]);
+
+    // Повертаємо дані з пагінацією
+    return {
+      items: users.map(userData =>
+        new User({
+          id: userData.id,
+          username: userData.username,
+          passwordHash: userData.passwordHash,
+          isPrivileged: userData.isPrivileged,
+          createdAt: userData.createdAt,
+          updatedAt: userData.updatedAt,
+        })
+      ),
+      page: Math.ceil(offset / limit) + 1, // Визначаємо поточну сторінку
+      total,
+    };
   }
 }
 
