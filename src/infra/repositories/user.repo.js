@@ -95,15 +95,16 @@ class UserRepository {
 
     // Повертаємо дані з пагінацією
     return {
-      items: users.map(userData =>
-        new User({
-          id: userData.id,
-          username: userData.username,
-          passwordHash: userData.passwordHash,
-          isPrivileged: userData.isPrivileged,
-          createdAt: userData.createdAt,
-          updatedAt: userData.updatedAt,
-        })
+      items: users.map(
+        (userData) =>
+          new User({
+            id: userData.id,
+            username: userData.username,
+            passwordHash: userData.passwordHash,
+            isPrivileged: userData.isPrivileged,
+            createdAt: userData.createdAt,
+            updatedAt: userData.updatedAt,
+          })
       ),
       page: Math.ceil(offset / limit) + 1, // Визначаємо поточну сторінку
       total,

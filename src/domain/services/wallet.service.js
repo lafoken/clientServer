@@ -1,4 +1,4 @@
-const { Wallet } = require('../entities/Wallet');  // Імпортуємо модель Wallet
+const { Wallet } = require('../entities/Wallet'); // Імпортуємо модель Wallet
 
 /**
  * @implements {Services.IWalletService}
@@ -10,8 +10,8 @@ class WalletService {
    * @param {Repositories.IUserRepository} dependencies.userRepository
    */
   constructor({ walletRepository, userRepository }) {
-    this.walletRepository = walletRepository;  // Репозиторій для роботи з гаманцями
-    this.userRepository = userRepository;      // Репозиторій для роботи з користувачами
+    this.walletRepository = walletRepository; // Репозиторій для роботи з гаманцями
+    this.userRepository = userRepository; // Репозиторій для роботи з користувачами
   }
 
   /**
@@ -42,6 +42,6 @@ class WalletService {
 }
 
 module.exports.walletService = new WalletService({
-  walletRepository: require('../../infra/repositories/wallet.repo'),  // Репозиторій для роботи з гаманцями
-  userRepository: require('../../infra/repositories/user.repo')       // Репозиторій для роботи з користувачами
+  walletRepository: require('../../infra/repositories/wallet.repo'), // Репозиторій для роботи з гаманцями
+  userRepository: require('../../infra/repositories/user.repo'), // Репозиторій для роботи з користувачами
 });

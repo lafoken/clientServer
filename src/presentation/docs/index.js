@@ -16,9 +16,7 @@ module.exports.patchDocs = (fastify) => {
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
-      tags: [
-        { name: 'Users', description: 'User related end-points' }
-      ],
+      tags: [{ name: 'Users', description: 'User related end-points' }],
     },
   });
 

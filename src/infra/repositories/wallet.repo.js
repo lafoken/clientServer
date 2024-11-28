@@ -21,14 +21,15 @@ class WalletRepository {
   async getAll() {
     const walletsData = await this.#db.wallet.findMany();
 
-    return walletsData.map(walletData => 
-      new Wallet({
-        id: walletData.id,
-        userId: walletData.userId,
-        balance: walletData.balance,
-        createdAt: walletData.createdAt,
-        updatedAt: walletData.updatedAt,
-      })
+    return walletsData.map(
+      (walletData) =>
+        new Wallet({
+          id: walletData.id,
+          userId: walletData.userId,
+          balance: walletData.balance,
+          createdAt: walletData.createdAt,
+          updatedAt: walletData.updatedAt,
+        })
     );
   }
 

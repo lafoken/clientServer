@@ -17,7 +17,7 @@ class GetUsers {
    * @param {number} [filters.limit]
    * @param {number} [filters.offset]
    * @param {string} [filters.sort]
-   * @returns {Promise<Object>} 
+   * @returns {Promise<Object>}
    */
   async execute(filters) {
     const cacheKey = `Users:${this.normalizeFilters(filters)}`;
